@@ -51,3 +51,7 @@ body {
 input {
   border: 1px solid black;
 }
+
+.fixborder {
+  border: 1px solid black;
+}

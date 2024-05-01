@@ -1,13 +1,14 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { v2 as cloudinary } from "cloudinary";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Product } from "../models/product.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const addProduct = asyncHandler(async (req, res) => {
-  const { productName, description, category, price } = req.body;
+  const { productName, description, category, price, stock, brand, discount } =
+    req.body;
 
-  if (!productName || !category || !price)
+  if (!productName || !category || !price || !stock)
     throw new ApiError(401, "every field is requied");
 
   const product = await Product.create({
@@ -15,28 +16,35 @@ const addProduct = asyncHandler(async (req, res) => {
     description,
     category,
     price,
+    stock,
+    brand,
+    discount,
   });
 
   if (!product) throw new ApiError(501, "internal server error");
 
-  const images = req.files;
+  const thumbnail = req.files["thumbnail"][0];
 
-  let uploads = [];
+  const productImages = req.files["productImages"];
 
-  for (let image of images) {
-    const result = await cloudinary.uploader.upload(image.path, {
-      resource_type: "auto",
-      folder: "products",
-    });
+  const image = await uploadOnCloudinary(thumbnail.path, "products");
+
+  let thumbnailPhoto = {
+    public_id: image?.public_id || "",
+    url: image?.secure_url || "",
+  };
+
+  product.thumbnail = thumbnailPhoto;
+
+  for (let image of productImages) {
+    const result = await uploadOnCloudinary(image.path, "products");
 
     let photo = {
       public_id: result?.public_id || "",
       url: result?.secure_url || "",
     };
-    uploads.push(photo);
+    product.images.push(photo);
   }
-
-  product.images = uploads;
 
   await product.save();
 

@@ -16,13 +16,13 @@ const productSchema = new Schema({
     type: String,
   },
   discount: {
-    type: Number,
+    type: String,
   },
   rating: {
     type: Number,
   },
   stock: {
-    type: Number,
+    type: String,
     default: 1,
   },
   brand: {
@@ -36,16 +36,7 @@ const productSchema = new Schema({
       type: String,
     },
   },
-  images: [
-    {
-      public_id: {
-        type: String,
-      },
-      url: {
-        type: String,
-      },
-    },
-  ],
+  images: [],
 });
 
 export const Product = mongoose.model("Product", productSchema);
