@@ -54,5 +54,18 @@ const addProduct = asyncHandler(async (req, res) => {
       new ApiResponse(201, "product created successfully", "product", product)
     );
 });
+const getAllProducts = asyncHandler(async (req, res) => {
+  const allProducts = await Product.find();
 
-export { addProduct };
+  if (!allProducts.length) {
+    throw new ApiError(404, "no products to show");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(201, "here are your products", "products", allProducts)
+    );
+});
+
+export { addProduct, getAllProducts };

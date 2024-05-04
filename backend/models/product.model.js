@@ -11,6 +11,20 @@ const productSchema = new Schema({
 
   category: {
     type: String,
+    enum: [
+      "airpodes",
+      "camera",
+      "earphones",
+      "mobiles",
+      "mouse",
+      "printers",
+      "processor",
+      "refrigerator",
+      "speakers",
+      "trimmers",
+      "televisions",
+      "watches",
+    ],
   },
   price: {
     type: String,

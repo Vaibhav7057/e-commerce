@@ -28,7 +28,10 @@ const userSchema = new Schema(
       unique: true,
       select: false,
     },
-
+    role: {
+      type: String,
+      enum: ["admin", "user", "moderator"],
+    },
     profilephoto: {
       public_id: {
         type: String,

@@ -1,12 +1,27 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-
-const Addproduct = () => {
+import { IoMdClose } from "react-icons/io";
+import toast from "react-hot-toast";
+const Addproduct = ({ setShow, productsCall }) => {
   const [photos, setPhotos] = useState([]);
   const [product, setProduct] = useState({});
   const [thumbnail, setThumbnail] = useState("");
   const imageRef = useRef();
   const thumbnailRef = useRef();
+  const productCategory = [
+    "airpodes",
+    "camera",
+    "earphones",
+    "mobiles",
+    "mouse",
+    "printers",
+    "processor",
+    "refrigerator",
+    "speakers",
+    "trimmers",
+    "televisions",
+    "watches",
+  ];
 
   function handlechange(e) {
     const sphotos = e.target.files;
@@ -50,23 +65,31 @@ const Addproduct = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setPhotos([]);
         setProduct({});
         setThumbnail("");
+        productsCall((pre) => !pre);
+        toast.success("product added successfully!");
       })
       .catch((err) => {
-        if (!err.response) {
-          console.log("no server response");
+        let error = err.response?.data;
+        if (!error) {
+          toast.error(err.response?.statusText);
         } else {
-          console.log(err.response?.data);
+          toast.error(error.message);
         }
       });
   }
 
   return (
-    <div className="w-screen py-7 min-h-screen flex justify-center  ">
-      <div className=" w-[60%] h-auto border border-slate-400 flex flex-col py-5 px-4 bg-slate-100 ">
+    <div className="py-7  flex justify-center items-center overflow-hidden fixed inset-0 bg-[#24212157] backdrop-blur-sm ">
+      <div className="w-[60%] h-[90%] border border-slate-400 flex flex-col  py-5 px-4 bg-white overflow-y-scroll  ">
+        <button
+          className="block ml-auto bg-red-600 text-white p-1 my-2 rounded-full"
+          onClick={() => setShow(false)}
+        >
+          <IoMdClose />
+        </button>
         <div className="flex ">
           <div className="w-[70%] flex flex-col gap-3 pr-4 ">
             <input
@@ -102,14 +125,20 @@ const Addproduct = () => {
               onChange={handleProduct}
             />
 
-            <input
-              type="text"
+            <select
+              required
+              value={product.category}
               name="category"
-              className="bg-slate-200 outline-none border px-3 py-2 border-slate-500 rounded-md "
-              placeholder="enter product category"
-              value={product.category || ""}
               onChange={handleProduct}
-            />
+              className="bg-slate-200 outline-none border px-3 py-2 border-slate-500 rounded-md "
+            >
+              <option value={""}>Select Category</option>
+              {productCategory.map((el, index) => (
+                <option value={el} key={el + index}>
+                  {el}
+                </option>
+              ))}
+            </select>
 
             <input
               type="text"
@@ -144,8 +173,8 @@ const Addproduct = () => {
               onChange={handleProduct}
             />
           </div>
-          <div className="w-[30%] px-2 ">
-            {thumbnail && (
+          <div className="w-[30%] px-2 border border-slate-400 rounded-md pt-2 flex items-center justify-center ">
+            {thumbnail ? (
               <div className="border border-slate-400 bg-white p-2 rounded-md ">
                 <img
                   src={URL.createObjectURL(thumbnail)}
@@ -160,6 +189,13 @@ const Addproduct = () => {
                   delete
                 </button>
               </div>
+            ) : (
+              <img
+                src="/images/image.png"
+                alt="thumbnail"
+                className="rounded-md"
+                width="200px"
+              />
             )}
           </div>
         </div>
@@ -181,7 +217,7 @@ const Addproduct = () => {
             Select thumbnail
           </div>
         </div>
-        <div className="flex flex-wrap gap-3 w-full min-h-[100px] h-auto py-2 px-3 bg-slate-200 border border-slate-400 rounded-md justify-center items-center ">
+        <div className="flex flex-wrap gap-3 w-full min-h-[150px] h-auto py-2 px-3 bg-slate-200 border border-slate-400 rounded-md justify-center items-center ">
           {photos.length > 0 &&
             photos.map((e, i) => (
               <div

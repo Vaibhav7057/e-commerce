@@ -1,11 +1,24 @@
 import React from "react";
-import Loader from "./components/Loader";
-import Addproduct from "./components/product/Addproduct";
+import AdminPanel from "./components/AdminPanel";
+import Header from "./components/Header";
+import { Route, Routes } from "react-router-dom";
+import GetAllProducts from "./components/product/GetAllProducts";
+import GetAllUsers from "./components/user/GetAllUsers";
+import { Toaster } from "react-hot-toast";
+import Home from "./components/Home";
 
 function App() {
   return (
     <>
-      <Addproduct />
+      <Toaster />
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<AdminPanel />}>
+          <Route path="/admin" element={<GetAllUsers />} />
+          <Route path="/admin/products" element={<GetAllProducts />} />
+        </Route>
+      </Routes>
     </>
   );
 }

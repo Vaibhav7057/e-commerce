@@ -382,6 +382,21 @@ const deleteaccount = asyncHandler(async (req, res, next) => {
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, "your account has been deleted successfully"));
 });
+
+const getAllUsers = asyncHandler(async (req, res) => {
+  const allUsers = await User.find();
+
+  if (!allUsers.length) {
+    throw new ApiError(404, "no users to show");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(201, "users fetched successfully", "users", allUsers)
+    );
+});
+
 export {
   registerUser,
   loginUser,
@@ -395,4 +410,5 @@ export {
   updatephoto,
   deletephoto,
   getUserDetails,
+  getAllUsers,
 };
