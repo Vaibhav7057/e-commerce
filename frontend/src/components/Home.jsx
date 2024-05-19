@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     let ismounted = true;
     const controller = new AbortController();
@@ -41,7 +42,8 @@ const Home = () => {
           {products?.map((item, i) => (
             <div
               key={i * 31}
-              className="w-[200px] h-[250px] border border-slate-500 pb-2 bg-white rounded-md overflow-hidden"
+              className="w-[200px] h-[250px] border border-slate-500 pb-2 bg-white rounded-md overflow-hidden cursor-pointer"
+              onClick={() => navigate(`/viewproduct/${item._id}`)}
             >
               <div className="w-full h-[150px] ">
                 <img

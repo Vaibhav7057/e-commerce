@@ -36,30 +36,33 @@ const GetAllUsers = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex gap-2 flex-col p-2 bg-slate-400 ">
+    <div className="w-full h-full flex gap-2 flex-col p-2 bg-slate-400 overflow-hidden ">
       <div className="flex justify-between px-3 py-1 bg-white rounded-md ">
         <p>all Users</p> <button className="px-2 py-1">add new user</button>
       </div>
 
       {users.length > 0 && (
-        <div className="flex flex-wrap bg-white rounded-md ">
-          {users?.map((item, i) => (
-            <div
-              key={i * 31}
-              className="w-[100px] h-[300px] border border-slate-500 pb-2 "
-            >
-              <div className="w-full h-[150px] ">
-                <img
-                  src="/images/user.png"
-                  alt="admin photo"
-                  className="w-full"
-                />
-              </div>
-              <p className="px-2 mt-2">{item.title}</p>
-              <p className="px-2 mt-2">{item.price}</p>
-            </div>
+        <table className="usertable border border-slate-600">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Suspended</th>
+            <th>Take action</th>
+          </tr>
+
+          {users?.map((user, i) => (
+            <tr key={i * 24}>
+              <td data-cell="Name">{user.fullName}</td>
+              <td data-cell="Email">{user.email}</td>
+              <td data-cell="Suspended">{user.role}</td>
+              <td data-cell="Role">{user.isSuspended ? "True" : "False"}</td>
+              <td data-cell="Take action">
+                <button>Edit</button>
+              </td>
+            </tr>
           ))}
-        </div>
+        </table>
       )}
     </div>
   );

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Addproduct from "./Addproduct";
-
+import { useNavigate } from "react-router-dom";
 const GetAllProducts = () => {
   const [products, setProducts] = useState([]);
   const [show, setShow] = useState(false);
   const [callProducts, setCallProducts] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let ismounted = true;
@@ -42,7 +43,10 @@ const GetAllProducts = () => {
     <div className="w-full h-full flex gap-2 flex-col p-2 bg-slate-400 overflow-y-scroll ">
       <div className="flex justify-between px-3 py-1 bg-white rounded-md ">
         <p>all products</p>{" "}
-        <button className="px-2 py-1" onClick={() => setShow(true)}>
+        <button
+          className="px-2 py-1 border rounded-lg"
+          onClick={() => setShow(true)}
+        >
           add product
         </button>
       </div>
@@ -52,7 +56,8 @@ const GetAllProducts = () => {
           {products?.map((item, i) => (
             <div
               key={i * 31}
-              className="w-[200px] h-[250px] border border-slate-500 pb-2 bg-white rounded-md overflow-hidden"
+              className="w-[200px] h-[250px] border border-slate-500 pb-2 bg-white rounded-md overflow-hidden cursor-pointer"
+              onClick={() => navigate(`/viewproduct/${item._id}`)}
             >
               <div className="w-full h-[150px] ">
                 <img

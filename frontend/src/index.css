@@ -59,3 +59,24 @@ input {
 .fixborder {
   border: 1px solid black;
 }
+
+.setActive:visited {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.usertable {
+  width: 100%;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  overflow-x: scroll;
+}
+.usertable td,
+.usertable th {
+  padding: 10px;
+  border: 1px solid rebeccapurple;
+}
+
+.usertable tr:nth-of-type(2n) {
+  background-color: #ecf6fa;
+}

@@ -6,6 +6,7 @@ import GetAllProducts from "./components/product/GetAllProducts";
 import GetAllUsers from "./components/user/GetAllUsers";
 import { Toaster } from "react-hot-toast";
 import Home from "./components/Home";
+import ViewProduct from "./components/product/ViewProduct";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/viewproduct/:id" element={<ViewProduct />} />
         <Route path="/admin" element={<AdminPanel />}>
           <Route path="/admin" element={<GetAllUsers />} />
           <Route path="/admin/products" element={<GetAllProducts />} />

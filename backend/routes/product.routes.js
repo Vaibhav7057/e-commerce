@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addProduct,
   getAllProducts,
+  getProduct,
 } from "../controllers/product.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -16,5 +17,6 @@ router.route("/createproduct").post(
   addProduct
 );
 router.route("/getallproducts").get(getAllProducts);
+router.route("/getproduct/:id").get(getProduct);
 
 export default router;

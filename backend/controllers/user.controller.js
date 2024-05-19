@@ -386,10 +386,6 @@ const deleteaccount = asyncHandler(async (req, res, next) => {
 const getAllUsers = asyncHandler(async (req, res) => {
   const allUsers = await User.find();
 
-  if (!allUsers.length) {
-    throw new ApiError(404, "no users to show");
-  }
-
   return res
     .status(200)
     .json(

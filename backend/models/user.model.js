@@ -8,7 +8,6 @@ const userSchema = new Schema(
     fullName: {
       type: String,
       required: [true, "Please enter your Fullname"],
-      index: true,
     },
     email: {
       type: String,
@@ -25,12 +24,16 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      unique: true,
       select: false,
     },
     role: {
       type: String,
       enum: ["admin", "user", "moderator"],
+      default: "user",
+    },
+    isSuspended: {
+      type: Boolean,
+      default: false,
     },
     profilephoto: {
       public_id: {
@@ -41,10 +44,16 @@ const userSchema = new Schema(
       },
     },
 
-    todos: [
+    cart: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Todo",
+        ref: "Product",
+      },
+    ],
+    orders: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
       },
     ],
 

@@ -57,15 +57,22 @@ const addProduct = asyncHandler(async (req, res) => {
 const getAllProducts = asyncHandler(async (req, res) => {
   const allProducts = await Product.find();
 
-  if (!allProducts.length) {
-    throw new ApiError(404, "no products to show");
-  }
-
   return res
     .status(200)
     .json(
       new ApiResponse(201, "here are your products", "products", allProducts)
     );
 });
+const getProduct = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  if (!id) {
+    throw new ApiError(401, "Something went wrong");
+  }
+  const product = await Product.findById({ _id: id });
 
-export { addProduct, getAllProducts };
+  return res
+    .status(200)
+    .json(new ApiResponse(201, "here is your product", "product", product));
+});
+
+export { addProduct, getAllProducts, getProduct };
